@@ -6,7 +6,7 @@
 4) Run the bot with `node bot.js`  
 
 ## Important to Note ##
-The token in config.json is supposed to be super secretive. It basically Discord tells which bot you are.  
+The token in config.json is supposed to be super secretive. It basically tells Discord which bot you are.  
 
 ## Running your own bot ##
 1) Go to https://discordapp.com/developers/applications/me.  
