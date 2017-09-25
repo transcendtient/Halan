@@ -1,4 +1,4 @@
-### Setting Up ###
+## Setting Up ##
 
 1) Get Node.js  
 2) Open command line prompt in project directory  
