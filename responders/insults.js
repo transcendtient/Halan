@@ -97,7 +97,7 @@ let insults = [
     "@, villain, I have done thy mother",
 ];
 
-let getRandomInsult = function() {
+let getRandomInsult = function(insultee) {
     return insults[Math.floor(Math.random()*insults.length)].replace("@", insultee);
 }
 
@@ -122,7 +122,7 @@ let sendResponse = function(message) {
     }
 
     insultees.forEach( insultee => {
-        message.channel.send(getRandomInsult());
+        message.channel.send(getRandomInsult(insultee));
     })
 
 }
