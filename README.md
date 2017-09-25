@@ -2,8 +2,8 @@
 
 1) Get Node.js  
 2) Open command line prompt in project directory  
-3) Run 'npm install --save discord.js' to get required modules  
-4) Run the bot with 'node bot.js'  
+3) Run `npm install --save discord.js` to get required modules  
+4) Run the bot with `node bot.js`  
 
 ## Important to Note ##
 The token in config.json is supposed to be super secretive. It basically Discord tells which bot you are.  
