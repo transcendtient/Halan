@@ -98,7 +98,7 @@ let insults = [
 ];
 
 let getRandomInsult = function() {
-    return insults[Math.floor(Math.random()*insults.length)];
+    return insults[Math.floor(Math.random()*insults.length)].replace("@", insultee);
 }
 
 let meetsCondition = function(message) {
@@ -122,7 +122,7 @@ let sendResponse = function(message) {
     }
 
     insultees.forEach( insultee => {
-        message.channel.send(getRandomInsult().replace("@", insultee));
+        message.channel.send(getRandomInsult());
     })
 
 }
