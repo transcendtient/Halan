@@ -11,5 +11,5 @@ The token in config.json is supposed to be super secretive. It basically Discord
 ## Running your own bot ##
 1) Go to https://discordapp.com/developers/applications/me.
 2) Go through the steps of creating a new application
-   [Find in-depth guide here]https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
+   [Find in-depth guide here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
 3) Replace the token with your own token and run it.
