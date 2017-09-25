@@ -63,6 +63,10 @@ let sendResponse = function(message) {
 
     let insultees = message.mentions.users;
 
+    if (message.content.includes("me")) {
+        insultees.set(message.author.id, message.author);
+    }
+
     if (insultees.size === 0) {
         message.channel.send("Yeah, just tell me who's too happy right now. \nI can insult them no problem");
     }
