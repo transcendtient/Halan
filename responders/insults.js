@@ -67,6 +67,10 @@ let sendResponse = function(message) {
         insultees.set(message.author.id, message.author);
     }
 
+    if (message.everyoneMentioned || message.content.includes("everyone")) {
+        insultees = message.guild.members.filter(member => member.user.bot == false);
+    }
+
     if (insultees.size === 0) {
         message.channel.send("Yeah, just tell me who's too happy right now. \nI can insult them no problem");
     }
