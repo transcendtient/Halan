@@ -9,7 +9,6 @@ let confusedMesssages = [
     "Boy, You need your ass whooped",
     "I'm afraid I can't do that",
     "Stop that. Or else I'm going to have to lick you",
-    "Listen here kiddo, you're gay."
 ];
 
 let getRandomConfusedMessage = function () {
