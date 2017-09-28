@@ -3,7 +3,7 @@ let partyCountRequirement = 3; //how many players must be in a game to be consid
 let broadcastRepetitionDeferral = 2.5 * 3600000; //don't repeat same game for the given interval
 let lastGameBroadcast = []; //when was game last broadcasted
 
-let meetsPartyRequirements = function(count) {
+let meetsPartySizeRequirements = function(count) {
     return count >= partyCountRequirement;
 }
 
@@ -40,13 +40,10 @@ let sendResponse = function(client, oldGuildMember, newGuildMember) {
     for (var game in gamesBeingPlayed) {
         
         let count = gamesBeingPlayed[game];
-        if (!meetsPartyRequirements(count)) return;
-        if (!meetsBroadcastRequirement(game)) return;
-
+        if (!meetsPartyRequirements(count) || !meetsBroadcastRequirement(game)) return;
 
         let channel = null; //TODO: Find channel
         broadcastGame(channel, game);
-
     }
 
 }

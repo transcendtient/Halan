@@ -22,17 +22,13 @@ client.on("message", (message) => {
   let responded = false;
 
   responders.forEach( responder => {
-
       if (responder.meetsCondition(message)) {
           responder.sendResponse(message);
           responded = true;
       }
-
   })
 
-  if (!responded) {
-        defaultResponder.sendResponse(message);
-  }
+  if (!responded) defaultResponder.sendResponse(message);
 
 });
 
@@ -50,5 +46,4 @@ client.on("presenceUpdate", (oldGuildMember, newGuildMember) => {
 
 
 client.login(config.token);
-
 module.exports.client = client;

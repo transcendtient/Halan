@@ -1,3 +1,4 @@
+let bot = require("../bot.js");
 let insults = [
     "@, Away, you starvelling, you elf-skin, you dried neat’s-tongue, bull’s-pizzle, you stock-fish!",
     "@: a most notable coward, an infinite and endless liar, an hourly promise breaker, the owner of no one good quality.",
@@ -45,6 +46,8 @@ let insults = [
     "@, you starvelling, you eel-skin, you dried neat’s-tongue, you bull’s-pizzle, you stock-fish–O for breath to utter what is like thee!-you tailor’s-yard, you sheath, you bow-case, you vile standing tuck!",
     "@, your brain is as dry as the remainder biscuit after voyage.",
     "@, villain, I have done thy mother",
+    "@, fuck thee.",
+    "@, up thine!"
 ];
 
 let getRandomInsult = function(insultee) {
@@ -59,7 +62,7 @@ let sendResponse = function(message) {
 
     let insultees = message.mentions.users;
 
-    if (message.content.includes("me")) {
+    if (message.content.includes("me ")) {
         insultees.set(message.author.id, message.author);
     }
 
@@ -68,7 +71,23 @@ let sendResponse = function(message) {
     }
 
     if (insultees.size === 0) {
-        message.channel.send("Yeah, just tell me who's too happy right now. \nI can insult them no problem");
+        let insultee = message.content.replace(/.*insult/, "").trim();
+
+        if (message.guild) { //if it was sent in a server, try to find the user so we can mention them
+            let guildMember = message.guild.members.find(member =>
+                member.user.username === insultee ||
+                member.nickname === insultee);
+
+            if (guildMember) {
+                let user = guildMember.user;
+                insultees.set(user.id, user);
+            } else {
+                insultees = [insultee]; //couldn't find user, use string
+            }
+        } else {
+                insultees = [insultee];
+        }
+
     }
 
     insultees.forEach( insultee => {

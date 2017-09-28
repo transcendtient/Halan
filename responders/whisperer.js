@@ -19,7 +19,9 @@ let sendResponse = function(message) {
 
     if (user) {
         user.send(messageToWhisper);
-        message.author.send("Message sent (I think)");
+        message.author.send(":thumbsup:");
+    } else {
+        message.author.send(":thumbsdown:");
     }
 
 }
