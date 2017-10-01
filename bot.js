@@ -10,12 +10,12 @@ let admin = null;
 let defaultResponder = require("./responders/confused.js");
 
 let onMesageListeners = [
-    require("./responders/say.js"),
-    require("./responders/help.js"),
-    require("./responders/games.js"),
-    require("./responders/gifme.js"),
-    require("./responders/insults.js"),
-    require("./responders/compliments.js"),
+    require("./onMessageListeners/say.js"),
+    require("./onMessageListeners/help.js"),
+    require("./onMessageListeners/games.js"),
+    require("./onMessageListeners/gifme.js"),
+    require("./onMessageListeners/insults.js"),
+    require("./onMessageListeners/compliments.js"),
 ];
 
 let onPresenceUpdateListeners = [
