@@ -9,11 +9,11 @@ class Utils {
     }
 
     removeBotName(content) {
-        content.replace(this.bot.halanRegexp, "");
+        return content.replace(this.bot.halanRegexp, "");
     }
 
     getTargetChannelAndClean(message) {
-        
+
     }
 
     getTargetUserAndClean(message) {

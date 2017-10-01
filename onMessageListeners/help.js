@@ -9,7 +9,7 @@ let messages = [
 let sendMessage = function(message) {
     let content = message.content;
     let utils = bot.utils;
-    utils.removeBotName(content).trim();
+    content = utils.removeBotName(content).trim();
 
     if (content.match(/^help$/i)) {
         message.channel.send(utils.getRandom(messages));

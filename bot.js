@@ -7,7 +7,7 @@ const utils = new Utils(this, client);
 let halanRegexp = /\bhal(:?an)?\b/i; //Hal or Halan
 let admin = null;
 
-let defaultResponder = require("./responders/confused.js");
+let defaultResponder = require("./onMessageListeners/confused.js");
 
 let onMesageListeners = [
     require("./onMessageListeners/say.js"),
@@ -30,7 +30,7 @@ let onReady = function () {
 let notifyOnMessageListeners = function(message) {
     if (!message.content.match(halanRegexp) || message.author.bot) return;
 
-    message.content = utils.removeBotName(message.content);
+    utils.removeBotName(message.content);
     utils.resolveToMentions(message);
 
     let responded = false;
