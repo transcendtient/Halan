@@ -50,57 +50,35 @@ let insults = [
     "@, up thine!"
 ];
 
-let getRandomInsult = function(insultee) {
-    return insults[Math.floor(Math.random()*insults.length)].replace("@", insultee);
+let getRandomInsult = function(user) {
+    return insults[Math.floor(Math.random()*insults.length)].replace("@", user);
 }
 
-let meetsCondition = function(message) {
-    return message.content.includes("insult");
-};
+let sendMessage = function(message) {
+    if (!message.content.includes("insult")) return false;
+    let isDM = message.channel.type === 'dm';
 
-let sendResponse = function(message) {
+    let mentionedUsers = message.mentions.users;
 
-    let insultees = message.mentions.users;
+    if (mentionedUsers.size === 0) {
+        let username = message.content.replace(/.*insult/, "").trim();
+        let user = bot.utils.getUser(username);
 
-    if (message.content.includes("me ")) {
-        insultees.set(message.author.id, message.author);
+        if (user) mentionedUsers.set(user.id, user);
+        else if (!isDM) mentionedUsers.set(0, username); //don't add strings if we're going to DM
     }
 
-    if (message.everyoneMentioned || message.content.includes("everyone")) {
-        insultees = message.guild.members.filter(member => member.user.bot == false);
+    if (isDM) {
+        mentionedUsers.forEach( user => user.send(getRandomInsult(user)) );
+    } else {
+        mentionedUsers.forEach( user => { message.channel.send(getRandomInsult(user)); });
     }
 
-    if (insultees.size === 0) {
-        let insultee = message.content.replace(/.*insult/, "").trim();
-
-        if (message.guild) { //if it was sent in a server, try to find the user so we can mention them
-            let guildMember = message.guild.members.find(member =>
-                member.user.username === insultee ||
-                member.nickname === insultee);
-
-            if (guildMember) {
-                let user = guildMember.user;
-                insultees.set(user.id, user);
-            } else {
-                insultees = [insultee]; //couldn't find user, use string
-            }
-        } else {
-                insultees = [insultee];
-        }
-
-    }
-
-    insultees.forEach( insultee => {
-        message.channel.send(getRandomInsult(insultee));
-    })
-
+    return true;
 }
 
 module.exports = {
-    meetsCondition: function(message) {
-        return meetsCondition(message);
-    },
-    sendResponse: function(message){
-        sendResponse(message);
-    },
+    sendMessage: function(message) {
+        return sendMessage(message);
+    }
 }

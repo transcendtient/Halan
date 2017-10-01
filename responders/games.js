@@ -1,44 +1,35 @@
-let games = ["Overwatch", 
-               "StarCraft II",
-               "Hearthstone",
-               "Rocket League", 
-               "Divinity: Original Sins 2", 
-               "Left 4 Dead 2"];
+let games = [
+    "Overwatch", 
+    "StarCraft II",
+    "Hearthstone",
+    "Rocket League", 
+    "Divinity: Original Sins 2", 
+    "Left 4 Dead 2"
+];
+
+let responses = [
+    "Try @",
+    "Hmm.. how about @?",
+    "Do @!",
+    "Playing @ will bring you lots of happiness. Trust me."
+]
 
 let getRandomGame = function () {
     return games[Math.floor(Math.random()*games.length)];
 }
 
-let meetsCondition = function(message) {
-    
-    let matches = ["what", "game", "should", "play"];
-    let inputs = message.content.split(' ');
+let getRandomResponse = function () {
+    return responses[Math.floor(Math.random()*responses.length)];
+}
 
-    for (let i = 0; i < inputs.length; i++) {
-        let inputWord = inputs[i];
-
-        for (let j = 0; j < matches.length; j++) {
-            let matchWord = matches[j];
-
-            if (inputWord === matchWord) {
-                matches.splice(j, 1);
-                continue;
-            }
-        }
-    }
-
-    return matches.length == 0;
-};
-
-let sendResponse = function(message) {
-    message.channel.send("Try " + getRandomGame());
+let sendMessage = function(message) {
+    if (!message.content.match(/(?=.*game)(?=.*should)(?=.*play)/)) return false;
+    message.channel.send(getRandomResponse().replace("@", getRandomGame()));
+    return true;
 }
 
 module.exports = {
-    meetsCondition: function(message) {
-        return meetsCondition(message);
-    },
-    sendResponse: function(message){
-        sendResponse(message);
-    },
+    sendMessage: function(message){
+        sendMessage(message);
+    }
 }

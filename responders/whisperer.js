@@ -11,17 +11,29 @@ let sendResponse = function(message) {
     if (messageToWhisper) messageToWhisper = messageToWhisper[0].substring(9);
 
     let username = (content.match(/to:"[^"]+(?=")/));
-    if (username) username = username[0].substring(4);
+    if (username) {username = username[0].substring(4);
     let user = getUserFromName(username);
 
     let guildName = (content.match(/in:"[^"]+(?=")/));
-    if (guildName) guildName = guildName[0].substring(4);
-
-    if (user) {
+    if (guildName) guildNameAndChannel = guildName[0].substring(4).split(".");
+    guildName = guildNameAndChannel[0];
+    let guild = getGuildFromName(guildName);
+    let channelName = guildNameAndChannel[1];
+    let channel = guild.channels.find(channel => channel.name === channelName);
+    
+    let success = false;
+    if (channel) {
+        channel.send(messageToWhisper);
+        success = true;
+    } else if (user) {
         user.send(messageToWhisper);
-        message.author.send(":thumbsup:");
+        success = true;
+    }
+
+    if (success)
+        message.channel.send(":thumbsup:");
     } else {
-        message.author.send(":thumbsdown:");
+        message.channel.send(":thumbsdown:");
     }
 
 }

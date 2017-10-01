@@ -1,6 +1,6 @@
 //TODO: These values should unique for each guild
 let partyCountRequirement = 3; //how many players must be in a game to be considered a party
-let broadcastRepetitionDeferral = 2.5 * 3600000; //don't repeat same game for the given interval
+let broadcastRepetitionDeferral = 2.5 * 3600000; //don't repeat same game for a given interval
 let lastGameBroadcast = []; //when was game last broadcasted
 
 let meetsPartySizeRequirements = function(count) {
@@ -15,8 +15,7 @@ let meetsBroadcastDeferralRequirement = function(game) {
 
 let broadcastGame = function(channel, game) {
     lastGameBroadcast[game] = (new Date).getTime();
-    //TODO: broadcast to channel
-    console.log("@Everyone, get in here. Looks like there's a party going on");
+    channel.send("Everyone, get in here. Looks like there's a party going on " + game);
 }
 
 let sendResponse = function(client, oldGuildMember, newGuildMember) {
@@ -38,12 +37,13 @@ let sendResponse = function(client, oldGuildMember, newGuildMember) {
     });
 
     for (var game in gamesBeingPlayed) {
-        
         let count = gamesBeingPlayed[game];
         if (!meetsPartySizeRequirements(count) || !meetsBroadcastDeferralRequirement(game)) return;
 
-        let channel = null; //TODO: Find channel
-        broadcastGame(channel, game);
+        let channel = guild.channels.find(channel => channel.name === "broadcasts");
+        if (channel) {
+            broadcastGame(channel, game);
+        }
     }
 
 }

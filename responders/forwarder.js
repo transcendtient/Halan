@@ -1,7 +1,8 @@
 let bot = require("../bot.js");
 
 let meetsCondition = function(message) {
-    return !message.guild && message.author.id != 115308057994592259;
+    console.log("Author:" + message.author.id);
+    return !message.guild && message.author.id != '115308057994592259';
 };
 
 let sendResponse = function(message) {

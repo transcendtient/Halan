@@ -1,49 +1,59 @@
+const config = require("./config.json");
 const Discord = require("discord.js");
-const config  = require("./config.json");
-const client  = new Discord.Client();
+const client = new Discord.Client();
+const Utils = require("./utils.js");
+const utils = new Utils(this, client);
 
-client.on("ready", () => {
-  console.log("Halan Online!");
-});
+let halanRegexp = /\bhal(:?an)?\b/i; //Hal or Halan
+let admin = null;
 
 let defaultResponder = require("./responders/confused.js");
-let responders = [
+
+let onMesageListeners = [
+    require("./responders/say.js"),
+    require("./responders/help.js"),
     require("./responders/games.js"),
+    require("./responders/gifme.js"),
     require("./responders/insults.js"),
-    require("./responders/whisperer.js"),
-    require("./responders/forwarder.js"),
+    require("./responders/compliments.js"),
 ];
-
-client.on("message", (message) => {
-
-  var halanRegexp = new RegExp(config.prefix)
-  if (!message.content.match(halanRegexp) || message.author.bot) return;
-
-  let responded = false;
-
-  responders.forEach( responder => {
-      if (responder.meetsCondition(message)) {
-          responder.sendResponse(message);
-          responded = true;
-      }
-  })
-
-  if (!responded) defaultResponder.sendResponse(message);
-
-});
 
 let onPresenceUpdateListeners = [
     require("./presenceUpdate/partyBroadcaster.js"),
-]
+];
 
-client.on("presenceUpdate", (oldGuildMember, newGuildMember) => {
+let onReady = function () {
+    console.log("Halan Online!");
+    admin = client.users.get("115308057994592259"); //Ursoc's Id
+}
 
-  onPresenceUpdateListeners.forEach( listener => {
-    listener.sendMessage(client, oldGuildMember, newGuildMember);
-  })
+let notifyOnMessageListeners = function(message) {
+    if (!message.content.match(halanRegexp) || message.author.bot) return;
 
-});
+    message.content = utils.removeBotName(message.content);
+    utils.resolveToMentions(message);
 
+    let responded = false;
+    onMesageListeners.forEach(listener => { 
+        if (listener.sendMessage(message)) {
+            responded = true; 
+        }
+    });
+
+    if (!responded){
+        defaultResponder.sendMessage(message);
+    } 
+}
+
+let notifyOnPressenceUpdateLisenters = function(oldGuildMember, newGuildMember) {
+    onPresenceUpdateListeners.forEach(listener => { listener.sendMessage(oldGuildMember, newGuildMember); });
+}
+
+client.on("ready", () => { onReady(); });
+client.on("message", (message) => { notifyOnMessageListeners(message); });
+client.on("presenceUpdate", (oldGuildMember, newGuildMember) => { notifyOnPressenceUpdateLisenters });
 
 client.login(config.token);
+module.exports.halanRegexp = halanRegexp;
 module.exports.client = client;
+module.exports.utils = utils;
