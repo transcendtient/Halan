@@ -28,9 +28,12 @@ class Utils {
             this.getUser(pMention.replace("@", "")));
 
         mentionedUsers.forEach(user => {
-            console.log(user);
-            message.mentions.users.set(user.id, user)
+			if(user){
+				console.log(user);	
+				message.mentions.users.set(user.id, user)
+			}
         });
+		return;
     }
 
     getRandom(array) {
