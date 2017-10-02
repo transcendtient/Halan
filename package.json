@@ -7,6 +7,8 @@
   "dependencies": {
     "discord.io": "^2.5.2",
     "discord.js": "^11.2.1",
+    "get-urls": "^7.0.0",
+    "node-mysql": "^0.4.2",
     "winston": "^2.3.1"
   }
 }

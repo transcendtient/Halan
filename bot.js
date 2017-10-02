@@ -4,8 +4,22 @@ const client = new Discord.Client();
 const Utils = require("./utils.js");
 const utils = new Utils(this, client);
 
-let halanRegexp = /\bhal(:?an)?\b/i; //Hal or Halan
+let halanRegexp = /^ial(:?an)?\b/i; //Hal or Halan
 let admin = null;
+
+var mysql      = require('mysql');
+const connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'password',
+  database : 'ialan',
+});
+
+connection.connect(function(err) {
+  // connected! (unless `err` is set)
+  console.log(err);
+});
+
 
 let defaultResponder = require("./onMessageListeners/confused.js");
 
@@ -57,3 +71,4 @@ client.login(config.token);
 module.exports.halanRegexp = halanRegexp;
 module.exports.client = client;
 module.exports.utils = utils;
+module.exports.connection = connection;
