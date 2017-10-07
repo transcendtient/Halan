@@ -106,7 +106,7 @@ let randomSongByArtist = function(artist, valArray, message) {
 
 	var artistURI = encodeURIComponent(artist);
  
-	var url = 'http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&api_key=1dbc1afd5f5e64333ca1c5a803280d41&artist=' + artistURI + '&format=json';
+	var url = 'http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&api_key=' + bot.config.lastfmKey + '&artist=' + artistURI + '&format=json';
 	console.log(url);
 
 	getJSON(url, function(error, response){
@@ -120,7 +120,7 @@ let randomSongByArtist = function(artist, valArray, message) {
 			//message.channel.send("Random album:" + response.topalbums.album[randIndex].name);
 			var album = response.topalbums.album[randIndex].name.trim();
 			var albumURI = encodeURIComponent(album);				
-			var url = 'http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=1dbc1afd5f5e64333ca1c5a803280d41&artist=' + artistURI + '&album=' + albumURI + '&format=json';
+			var url = 'http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=' + bot.config.lastfmKey + '&artist=' + artistURI + '&album=' + albumURI + '&format=json';
 			console.log(url);
 
 			var retVal = getJSON(url, function(error, response){
