@@ -1,30 +1,23 @@
-const config = require("./config.json");
+const config = require("./config.js");
 const Discord = require("discord.js");
 const client = new Discord.Client();
+const playQueue = new Array();
+const dispatcher = null;
+const voiceChannel = null;
+const voiceConnection = null;
+
 const Utils = require("./utils.js");
 const utils = new Utils(this, client);
 
 let halanRegexp = /^ial(:?an)?\b/i; //Hal or Halan
 let admin = null;
 
-var mysql      = require('mysql');
-const connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'password',
-  database : 'ialan',
-});
-
-connection.connect(function(err) {
-  // connected! (unless `err` is set)
-  console.log(err);
-});
-
-
 let defaultResponder = require("./onMessageListeners/confused.js");
 
 let onMesageListeners = [
     require("./onMessageListeners/say.js"),
+	require("./onMessageListeners/play.js"),
+	require("./onMessageListeners/joinVoice.js"),
     require("./onMessageListeners/help.js"),
     require("./onMessageListeners/games.js"),
     require("./onMessageListeners/gifme.js"),
@@ -55,8 +48,9 @@ let notifyOnMessageListeners = function(message) {
     });
 
     if (!responded){
+		console.log("not responded");
         defaultResponder.sendMessage(message);
-    } 
+	}    
 }
 
 let notifyOnPressenceUpdateLisenters = function(oldGuildMember, newGuildMember) {
@@ -67,8 +61,15 @@ client.on("ready", () => { onReady(); });
 client.on("message", (message) => { notifyOnMessageListeners(message); });
 client.on("presenceUpdate", (oldGuildMember, newGuildMember) => { notifyOnPressenceUpdateLisenters });
 
-client.login(config.token);
+client.login(config.discordToken);
+
+
+
 module.exports.halanRegexp = halanRegexp;
 module.exports.client = client;
 module.exports.utils = utils;
-module.exports.connection = connection;
+module.exports.connection = config.mysqlConnection;
+module.exports.playQueue = playQueue;
+module.exports.dispatcher = dispatcher;
+module.exports.voiceChannel = voiceChannel;
+module.exports.config = config;

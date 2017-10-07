@@ -10,7 +10,10 @@ let sendMessage = function(message) {
 	let content = message.content;
 
     if (!content.includes("gifme")) return false;
-
+	//
+	//
+	//SAVE
+	//////////////////////////////
 	//hal, gifme, save, name, url
 	if (message.content.includes("save")){
 
@@ -21,6 +24,8 @@ let sendMessage = function(message) {
 			console.log(":"+item.trim()+"\n");
 			return item.trim();
 		});
+		if(valArray.length != 5) return false;
+
 		
 		var table = valArray[1];
 		var name = valArray[3];
@@ -47,7 +52,10 @@ let sendMessage = function(message) {
 		return true;
 	
 	} else {
-
+		//
+		//
+		//DELETE
+		//////////////////////////////
 		//hal, gifme, delete, id
 		if (message.content.includes("delete")){
 
@@ -58,6 +66,8 @@ let sendMessage = function(message) {
 				console.log(":"+item.trim()+"\n");
 				return item.trim();
 			});
+
+			if(valArray.length != 4) return false;
 		
 			var table = valArray[1];
 			var id = valArray[3];
@@ -98,6 +108,10 @@ let sendMessage = function(message) {
 
 			console.log(content); 
 
+			//
+			//
+			//GET
+			//////////////////////////////
 			//hal, gifme, name
 			var i = 0;
 			var valArray = content.split(",").map(function(item) {
@@ -105,6 +119,9 @@ let sendMessage = function(message) {
 				console.log(":"+item.trim()+"\n");
 				return item.trim();
 			});
+
+			if(valArray.length != 3) return false;
+			console.log("LENGTH!" + valArray.length);
 		
 			var name = valArray[2];
 
@@ -115,9 +132,8 @@ let sendMessage = function(message) {
 					return false;
 				} else {
 					console.log(result);
-					result.forEach(function(item){
-						message.channel.send("[" + item.id + "]" + item.url);
-					});
+					var randIndex = Math.floor(Math.random()*result.length);
+					message.channel.send("[" + result[randIndex].id + "]" + result[randIndex].url);
 					message.delete();
 					return true;
 				}
