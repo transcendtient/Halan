@@ -2,11 +2,15 @@
 
 1) Get Node.js  
 2) Open command line prompt in project directory  
-3) Run `npm install --save discord.js` to get required modules  
-4) Run the bot with `node bot.js`  
+3) Run `npm install --global --production windows-build-tools` (if on Windows)
+4) Run `npm install --save discord.js node-opus erlpack uws libsodium-wrappers node-mysql ytdl-core youtube-search get-json`
+5) Install FFMPEG
+6) Rename `configTemplate.js` to `config.js` and fill in the appropriate keys/tokens.
+7) Install mysql-server and create a database (and user if you like).
+8) Run the bot with `node bot.js`  
 
 ## Important to Note ##
-The token in config.json is supposed to be super secretive. It basically tells Discord which bot you are.  
+The token in config.js is supposed to be super secretive. It contains all the passwords and tokens that are unique to your bot.
 
 ## Running your own bot ##
 1) Go to https://discordapp.com/developers/applications/me.  

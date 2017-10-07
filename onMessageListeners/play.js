@@ -74,6 +74,19 @@ let searchForSong = function(valArray, message) {
 			let stream = yt(results[0].link, {audioonly: true});
 			message.channel.sendMessage('`Now playing:' + results[0].title + '`');
 			bot.dispatcher = bot.voiceConnection.playStream(stream);
+			//when this song is finished...
+			bot.dispatcher.on('end', () => {
+				if(bot.playQueue.length){
+					var nextSong = bot.playQueue.shift();
+					let stream = yt(nextSong.link, {audioonly: true});
+					message.channel.sendMessage('`Now playing:' + nextSong.title + '`');
+					bot.dispatcher = bot.voiceConnection.playStream(stream);
+
+				} else {
+					console.log("HEre");
+					randomSongByArtist("Nine Inch Nails", valArray, message, bot);
+				}
+			});
 
 		//add it to the playQueue
 		} else {
@@ -85,18 +98,7 @@ let searchForSong = function(valArray, message) {
 			console.log(bot.playQueue);
 		}
 
-		//when this song is finished...
-		bot.dispatcher.on('end', () => {
-			if(bot.playQueue.length){
-				var nextSong = bot.playQueue.shift();
-				let stream = yt(nextSong.link, {audioonly: true});
-				message.channel.sendMessage('`Now playing:' + nextSong.title + '`');
-				bot.dispatcher = bot.voiceConnection.playStream(stream);
-
-			} else {
-				randomSongByArtist("Nine Inch Nails", valArray, message, bot);
-			}
-		});
+		
 	});
 }
 
