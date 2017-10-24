@@ -37,6 +37,7 @@ let sendMessage = function(message) {
 			 console.log("connection:" + connection);
 			 bot.voiceConnection = connection;
 			 message.channel.sendMessage(":white_check_mark: **Connected!**");
+			 bot.inVoice = true;
 			 return true;
 		});
 		return true;
@@ -44,6 +45,8 @@ let sendMessage = function(message) {
 
 	if(command === 'unsummon'){
 		bot.voiceChannel.leave();
+		bot.voiceConnection.disconnect();
+		bot.inVoice = false;
 	}
 }
 

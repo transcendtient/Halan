@@ -5,6 +5,7 @@ const playQueue = new Array();
 const dispatcher = null;
 const voiceChannel = null;
 const voiceConnection = null;
+const autoPlay = true;
 
 const Utils = require("./utils.js");
 const utils = new Utils(this, client);
@@ -73,3 +74,4 @@ module.exports.playQueue = playQueue;
 module.exports.dispatcher = dispatcher;
 module.exports.voiceChannel = voiceChannel;
 module.exports.config = config;
+module.exports.autoPlay = autoPlay;

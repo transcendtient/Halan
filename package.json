@@ -13,6 +13,7 @@
     "node-ffmpeg": "0.0.0",
     "node-mysql": "^0.4.2",
     "node-opus": "^0.2.7",
+    "node-while-loop": "^1.0.4",
     "uws": "^8.14.1",
     "winston": "^2.3.1",
     "youtube-search": "^1.0.10",
