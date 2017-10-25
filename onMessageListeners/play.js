@@ -205,7 +205,7 @@ let lastfmGetAlbum = function(error, response){
 	}
 }
 
-let checkingFormats = false;
+let duration = 0;
 
 let lastfmGetTrack = function(error, response){
 
@@ -222,6 +222,23 @@ let lastfmGetTrack = function(error, response){
 		//console.log(JSON.stringify(response));
 		var randIndex = Math.floor(Math.random()*response.album.tracks.track.length);
 		track = response.album.tracks.track[randIndex].name;
+
+		//checking duration so we dont play a whole album...
+		duration = response.album.tracks.track[randIndex].duration;
+		var minutes = Math.floor(duration / 60);
+		var seconds = duration - minutes * 60;
+		//less than 4 minutes
+		if(minutes*100+seconds <= 400){
+			bot.config.youtubeOpts.videoDuration = 'short';
+		//less than 20 minutes
+		} else {
+			if(minutes*100+seconds < 2000){
+				bot.config.youtubeOpts.videoDuration = 'medium';
+			} else {
+				bot.config.youtubeOpts.videoDuration = 'long';
+			}
+		}
+
 		var searchString = artist + " " + album + " " + track;
 		console.log("Youtube search string:" + searchString);
 		//message.channel.sendMessage('`Searching for:' + searchString + '`');
@@ -275,7 +292,7 @@ let gotYouTubeInfo = function gotYouTubeInfo(err, info) {
 		|| (format.audioBitrate === bestFormat.audioBitrate &&
 		YTDL_AUDIO_ENCODINGS.indexOf(format.audioEncoding) >
 		YTDL_AUDIO_ENCODINGS.indexOf(bestFormat.audioEncoding))){
-			console.log(format);
+			//console.log(format);
 			bestFormat = format;
 		}
     }
@@ -288,9 +305,9 @@ let gotYouTubeInfo = function gotYouTubeInfo(err, info) {
 		console.log(result.length);
 		stream = yt(result.link, playOpts);
 	} else {
-		console.log("bestFormat:" + bestFormat.url);
+		console.log("bestFormat");
+		console.log(bestFormat);
 		stream = bestFormat.url;
-		
 	}
 	message.channel.sendMessage({
         "embed": {
