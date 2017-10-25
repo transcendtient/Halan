@@ -240,6 +240,9 @@ let lastfmGetTrack = function(error, response){
 		}
 
 		var searchString = artist + " " + album + " " + track;
+		//remove parenthesis and their contents from searches
+		searchString = searchString.replace(/ *\([^)]*\) */g, "");
+
 		console.log("Youtube search string:" + searchString);
 		//message.channel.sendMessage('`Searching for:' + searchString + '`');
 		//find searched track and play or add to queue
